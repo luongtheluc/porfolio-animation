@@ -18,9 +18,13 @@ const Hero: React.FC<HeroProps> = ({ onCtaClick }) => {
     const line2El = document.getElementById('line2');
     const paragraphEl = document.getElementById('paragraph');
     
-    const mainTimeline = gsap.timeline();
+    const textTimeline = gsap.timeline({
+      repeat: -1,
+      repeatDelay: 3,
+    });
     
-    mainTimeline
+    textTimeline
+      .set(["#line1", "#line2", "#paragraph"], { text: "" })
       .add(() => line1El?.classList.add('is-typing'))
       .to("#line1", {
         duration: 1.5,
@@ -41,13 +45,16 @@ const Hero: React.FC<HeroProps> = ({ onCtaClick }) => {
         text: "A visual storyteller and motion designer creating compelling video experiences that captivate and convert.",
         ease: "none",
         onComplete: () => paragraphEl?.classList.remove('is-typing')
-      }, ">")
-      .from(".hero-cta-wrapper", {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        ease: "power3.out",
-      }, "-=0.5");
+      }, ">");
+
+    // Animate CTA button only once
+    gsap.from(".hero-cta-wrapper", {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      ease: "power3.out",
+      delay: 5.9, // Timed to appear before the first cycle of paragraph animation ends
+    });
     
     gsap.to(".hero-content", {
         scrollTrigger: {
@@ -71,8 +78,10 @@ const Hero: React.FC<HeroProps> = ({ onCtaClick }) => {
     });
 
     return () => {
-      // Kill all scroll triggers on unmount to prevent memory leaks
+      // Kill all scroll triggers and timelines on unmount to prevent memory leaks
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      textTimeline.kill();
+      gsap.killTweensOf(".hero-cta-wrapper");
     };
   }, []);
 
@@ -100,6 +109,7 @@ const Hero: React.FC<HeroProps> = ({ onCtaClick }) => {
         poster="https://picsum.photos/seed/hero-poster/1920/1080"
       >
         {/* Placeholder for actual video background */}
+        
       </video>
       <div className="text-center z-20 px-4 hero-content">
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-extrabold text-white leading-tight mb-4 hero-headline">
