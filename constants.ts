@@ -1,0 +1,65 @@
+
+import { VideoProject, VideoCategory } from './types';
+
+export const portfolioProjects: VideoProject[] = [
+  {
+    id: 1,
+    title: 'Project Cygnus',
+    client: 'Stellar Dynamics',
+    category: VideoCategory.PRODUCT,
+    thumbnailUrl: 'https://picsum.photos/seed/cygnus/800/600',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    description: 'Launch video for a new line of futuristic tech products, focusing on sleek visuals and a powerful narrative.',
+    year: 2024,
+  },
+  {
+    id: 2,
+    title: 'Urban Echoes',
+    client: 'Metropolis Apparel',
+    category: VideoCategory.COMMERCIAL,
+    thumbnailUrl: 'https://picsum.photos/seed/urban/800/600',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    description: 'A fast-paced commercial capturing the energy of the city and the essence of modern street style.',
+    year: 2023,
+  },
+  {
+    id: 3,
+    title: 'Kinetic Typography',
+    client: 'Motion Design Fest',
+    category: VideoCategory.MOTION_GRAPHIC,
+    thumbnailUrl: 'https://picsum.photos/seed/kinetic/800/600',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    description: 'An experimental piece showcasing the beauty of typography in motion, created for a design conference.',
+    year: 2024,
+  },
+  {
+    id: 4,
+    title: 'A Moment in Time',
+    client: 'Personal Project',
+    category: VideoCategory.PERSONAL,
+    thumbnailUrl: 'https://picsum.photos/seed/moment/800/600',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    description: 'A short film exploring themes of memory and nostalgia, shot in stunning black and white.',
+    year: 2022,
+  },
+  {
+    id: 5,
+    title: 'Innovate OS',
+    client: 'Future Systems',
+    category: VideoCategory.PRODUCT,
+    thumbnailUrl: 'https://picsum.photos/seed/innovate/800/600',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    description: 'A showcase of a new operating system, highlighting its fluid interface and powerful features.',
+    year: 2023,
+  },
+  {
+    id: 6,
+    title: 'The Alchemist',
+    client: 'Elixir Beverages',
+    category: VideoCategory.COMMERCIAL,
+    thumbnailUrl: 'https://picsum.photos/seed/alchemist/800/600',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    description: 'A cinematic ad telling the story behind a premium artisanal beverage brand.',
+    year: 2024,
+  }
+];
