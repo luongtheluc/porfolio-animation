@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { VideoProject } from '../types';
 import { PlayIcon } from './icons/PlayIcon';
@@ -6,19 +5,17 @@ import { PlayIcon } from './icons/PlayIcon';
 interface VideoCardProps {
   project: VideoProject;
   onSelect: () => void;
-  style?: React.CSSProperties;
 }
 
-const VideoCard: React.FC<VideoCardProps> = ({ project, onSelect, style }) => {
+const VideoCard: React.FC<VideoCardProps> = ({ project, onSelect }) => {
   const [isHovered, setIsHovered] = useState(false);
   
   return (
     <div 
-      className="group cursor-pointer relative overflow-hidden rounded-lg transition-transform duration-500 ease-in-out" 
+      className="video-card group cursor-pointer relative overflow-hidden rounded-lg transition-transform duration-500 ease-in-out" 
       onClick={onSelect}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={style}
     >
       <img
         src={project.thumbnailUrl}

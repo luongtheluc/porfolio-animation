@@ -1,13 +1,13 @@
-
 import React, { useState, useEffect } from 'react';
 
 interface HeaderProps {
   onPortfolioClick: () => void;
   onAboutClick: () => void;
   onContactClick: () => void;
+  onLogoClick: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onPortfolioClick, onAboutClick, onContactClick }) => {
+const Header: React.FC<HeaderProps> = ({ onPortfolioClick, onAboutClick, onContactClick, onLogoClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ onPortfolioClick, onAboutClick, onConta
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-black/80 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <div className="text-2xl font-bold font-serif cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+        <div className="text-2xl font-bold font-serif cursor-pointer" onClick={onLogoClick}>
           JD
         </div>
         <nav className="hidden md:flex items-center space-x-8">

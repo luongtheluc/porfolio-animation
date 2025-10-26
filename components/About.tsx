@@ -1,14 +1,49 @@
+import React, { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import React from 'react';
+const About: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
 
-interface AboutProps {
-  isVisible: boolean;
-}
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        }
+      });
 
-const About: React.FC<AboutProps> = ({ isVisible }) => {
-  const animationClass = isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10';
+      tl.from(sectionRef.current.querySelector('h2'), {
+        opacity: 0,
+        y: 40,
+        duration: 1,
+        ease: 'power3.out',
+      })
+      .from(sectionRef.current.querySelectorAll('p'), {
+          opacity: 0,
+          y: 20,
+          duration: 0.8,
+          ease: 'power3.out',
+          stagger: 0.2,
+      }, "-=0.8")
+      .from(sectionRef.current.querySelectorAll('.timeline-item'), {
+          opacity: 0,
+          x: -40,
+          duration: 1,
+          ease: 'power3.out',
+          stagger: 0.2,
+      }, "-=0.5");
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className={`py-20 md:py-32 bg-[#0a0a0a] transition-all duration-1000 ${animationClass}`}>
+    <section ref={sectionRef} className="py-20 md:py-32 bg-[#0a0a0a]">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
@@ -21,21 +56,21 @@ const About: React.FC<AboutProps> = ({ isVisible }) => {
             </p>
           </div>
           <div className="space-y-8">
-            <div className="flex items-start">
+            <div className="flex items-start timeline-item">
               <div className="text-2xl font-bold font-serif text-gray-500 mr-6">2014</div>
               <div>
                 <h3 className="text-xl font-bold text-white">Began Journey</h3>
                 <p className="text-gray-400">Started exploring the world of motion graphics and visual effects.</p>
               </div>
             </div>
-            <div className="flex items-start">
+            <div className="flex items-start timeline-item">
               <div className="text-2xl font-bold font-serif text-gray-500 mr-6">2018</div>
               <div>
                 <h3 className="text-xl font-bold text-white">Joined Stellar Dynamics</h3>
                 <p className="text-gray-400">Led video production for major product launches as a Senior Motion Designer.</p>
               </div>
             </div>
-            <div className="flex items-start">
+            <div className="flex items-start timeline-item">
               <div className="text-2xl font-bold font-serif text-gray-500 mr-6">2022</div>
               <div>
                 <h3 className="text-xl font-bold text-white">Freelance & Consulting</h3>

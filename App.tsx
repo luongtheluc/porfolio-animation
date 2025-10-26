@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -14,8 +13,25 @@ const App: React.FC = () => {
   const portfolioRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
+  const lenisRef = useRef<any>(null);
   
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
+  useEffect(() => {
+    // @ts-ignore
+    const lenis = new window.Lenis();
+    lenisRef.current = lenis;
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
 
   const handleSelectProject = (project: VideoProject) => {
     setSelectedProject(project);
@@ -26,38 +42,21 @@ const App: React.FC = () => {
   };
 
   const scrollTo = (ref: React.RefObject<HTMLElement>) => {
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
+    if (lenisRef.current && ref.current) {
+      lenisRef.current.scrollTo(ref.current);
+    }
   };
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisibleSections((prev) => new Set(prev).add(entry.target.id));
-          }
-        });
-      },
-      {
-        threshold: 0.2,
-      }
-    );
-
-    const sections = [portfolioRef.current, aboutRef.current, contactRef.current];
-    sections.forEach((section) => {
-      if (section) observer.observe(section);
-    });
-
-    return () => {
-      sections.forEach((section) => {
-        if (section) observer.unobserve(section);
-      });
-    };
-  }, []);
+  const scrollToTop = () => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0);
+    }
+  };
 
   return (
-    <div className="bg-[#0a0a0a] text-gray-200 min-h-screen">
+    <div className="bg-[#0a0a0a] text-gray-200 min-h-screen overflow-x-hidden">
       <Header
+        onLogoClick={scrollToTop}
         onPortfolioClick={() => scrollTo(portfolioRef)}
         onAboutClick={() => scrollTo(aboutRef)}
         onContactClick={() => scrollTo(contactRef)}
@@ -68,14 +67,13 @@ const App: React.FC = () => {
           <Portfolio 
             projects={portfolioProjects} 
             onProjectSelect={handleSelectProject} 
-            isVisible={visibleSections.has('portfolio')}
           />
         </div>
         <div ref={aboutRef} id="about">
-          <About isVisible={visibleSections.has('about')} />
+          <About />
         </div>
         <div ref={contactRef} id="contact">
-          <Contact isVisible={visibleSections.has('contact')} />
+          <Contact />
         </div>
       </main>
       {selectedProject && <Modal project={selectedProject} onClose={handleCloseModal} />}
